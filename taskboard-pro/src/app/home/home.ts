@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { TaskService } from '../core/service/task';
 
 
 @Component({
   selector: 'app-home',
-  imports: [],
+  imports: [AsyncPipe],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
@@ -13,5 +15,11 @@ export class Home {
   }
   ngOnDestroy() { //se termine dès que le composant est retiré du DOM —par exemple, lorsqu’on change de route.
   console.log('Composant détruit');
+  }
+
+  tasks$!: ReturnType<TaskService['getTask']>;
+
+  constructor(private taskService:TaskService){
+    this.tasks$ = this.taskService.getTask();
   }
 }

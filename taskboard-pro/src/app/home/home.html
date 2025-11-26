@@ -1,2 +1,12 @@
 
-<p>home works!</p>
+<h2>List des taches</h2>
+
+@if (tasks$ | async; as tasks){
+    <ul>
+        @for (t of tasks;track t.id){
+            <li>{{t.title}}</li>
+        }
+    </ul>
+}@else {
+    <p> Chargement des taches....</p>
+}
