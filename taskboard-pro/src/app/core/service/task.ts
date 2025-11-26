@@ -13,6 +13,6 @@ export class TaskService {
   ];
 
   getTask(){
-    return of(this.tasks).pipe(delay(1000));
+    return of(this.tasks).pipe(delay(500));
   }
 }
