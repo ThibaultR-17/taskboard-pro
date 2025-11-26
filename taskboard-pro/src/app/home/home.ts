@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { TaskService } from '../core/service/task';
 
@@ -10,12 +10,17 @@ import { TaskService } from '../core/service/task';
   styleUrl: './home.css',
 })
 export class Home {
+
   protected count=0;
-  myIntervalles=0;
+  private myIntervalles=0;
+
+
   ngOnInit() {
     this.myIntervalles= setInterval(()=>{
-      this.count++;
-      console.log(this.count);
+      if (document.hasFocus()){
+        this.count++;
+        console.log(this.count);
+      }
     },500
     );
   
@@ -26,6 +31,14 @@ export class Home {
   constructor(private taskService:TaskService){
     this.tasks$ = this.taskService.getTask();
   }
+
+  taskService2 = inject(TaskService);
+  tasks2$=this.taskService2.tasks$;
+
+  addTask(title:string){
+    this.taskService2.addTask(title);
+  }
+
 
   ngOnDestroy(){
     console.log("onDestroy")

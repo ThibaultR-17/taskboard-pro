@@ -10,3 +10,19 @@
 }@else {
     <p> Temps écoulé : {{this.count / 2}} secondes</p>
 }
+
+<h3>Actions</h3>
+
+<button (click)="addTask('Nouvelle Tache')">
+    Ajouter une tache
+</button>
+
+@if (tasks2$|async;as tasks2){
+    <ul>
+        @for (t of tasks2;track t.id){
+            <li>
+                {{t.title}}
+            </li>
+        }
+    </ul>
+}
