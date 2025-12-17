@@ -1,17 +1,19 @@
-import { Component } from '@angular/core';
-import { TaskItem } from '../../../core/services/task';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-task-edit',
-  imports: [],
+  imports:[FormsModule],
   templateUrl: './task-edit.html',
-  styleUrl: './task-edit.css',
+  styleUrls: ['./task-edit.css'],
 })
 export class TaskEdit {
+  @Input() title = '';
+  @Output() taskOutput = new EventEmitter<string>();
 
-  editTaskTitle(task:TaskItem,nouveauNom:string){
-    task.title=nouveauNom;
+  editTaskTitle(nouveauNom: string) {
+    if (nouveauNom.trim()) {
+      this.taskOutput.emit(nouveauNom);
+    }
   }
-
-
 }

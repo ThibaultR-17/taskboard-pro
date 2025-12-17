@@ -13,7 +13,7 @@ export interface TaskItem{
   providedIn: 'root',
 })
 export class TaskService {
-  private tasks: TaskItem[] = [https://github.com/ThibaultR-17/taskboard-pro/pull/1/conflict?name=taskboard-pro%252Fsrc%252Fapp%252Fcore%252Fservices%252Ftask.ts&ancestor_oid=2fed74d96457b32645be477813da5db43a185cb9&base_oid=079356b6412304379e7599f4d12af3ff20931179&head_oid=ad91f8bd01482ae834b2cf5b5543c6f9eccabafc
+  private tasks: TaskItem[] = [
     {id:1,title:'Préparer le cours Angular', completed: false},
     {id:2,title:'Relire le module RxJS', completed: false},
     {id:3,title:'Corriger les TPs', completed: false},
@@ -29,11 +29,15 @@ export class TaskService {
     this.taskSubject.next(this.tasks);
   }
 
-  getTask(){
+  getTaskObservableDelayed(){
     return of(this.tasks).pipe(delay(5000));
   }
-  
-   getTasks(){
+
+  getTaskObservable(){
+    return of(this.tasks);
+  }
+
+  getTasksList(){
     return this.tasks;
   }
 
@@ -46,10 +50,22 @@ export class TaskService {
     this.tasks = [];
   }
 
-  terminateTask(id:number){
-    this.tasks.filter(task => task.id == id && task.completed== false).map(task => task.completed = true);
+  toggleTask(id:number){
+    const task =this.tasks.find(task => task.id == id && task.completed== false);
+    if (task){
+      task.completed = true;
+    }
+    
     this.taskSubject.next(this.tasks);
   }
+
+editTask(id: number, text: string) {
+  const task = this.tasks.find(task => task.id === id);
+  if (task) {
+    task.title = text;
+    this.taskSubject.next([...this.tasks]);
+  }
+}
 
 }
 

@@ -3,7 +3,7 @@ import { TaskService, TaskItem } from '../../../core/services/task';
 import { AsyncPipe } from '@angular/common';
 import { TaskHighlight } from '../task-highlight/task-highlight';
 import { TaskEdit } from '../task-edit/task-edit';
-import { FormsModule } from '@angular/forms';
+
 
 @Component({
   selector: 'app-tasks-page',
@@ -34,10 +34,10 @@ export class TasksPage {
   
   }
 
-  tasks$!: ReturnType<TaskService['getTask']>;
+  tasks$!: ReturnType<TaskService['getTaskObservableDelayed']>;
 
   constructor(private taskService:TaskService){
-    this.tasks$ = this.taskService.getTask();
+    this.tasks$ = this.taskService.getTaskObservableDelayed();
   }
 
   taskService2 = inject(TaskService);
@@ -52,7 +52,7 @@ export class TasksPage {
   }
 
   terminer(id:number){
-    this.taskService2.terminateTask(id);
+    this.taskService2.toggleTask(id);
   }
 
   highlight(task: TaskItem) {
@@ -63,12 +63,20 @@ export class TasksPage {
     ref.instance.title = task.title;
   }
 
-  editer(task : TaskItem){
-    this.editContainer.clear()
+  editer(id: number) {
 
-    const ref = this.container.createComponent(TaskEdit);
+    this.editContainer.clear();
 
+    const ref = this.editContainer.createComponent(TaskEdit);
+
+    ref.instance.title = this.taskService2.getTasksList()[id].title;
+
+    ref.changeDetectorRef.detectChanges();
+
+    ref.instance.taskOutput.subscribe((newTitle: string) => {this.taskService2.editTask(id, newTitle);});
   }
+
+  
 
 
   ngOnDestroy(){

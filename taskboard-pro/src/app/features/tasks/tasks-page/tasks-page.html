@@ -21,6 +21,7 @@
 
 
 <div #highlightContainer></div>
+<div #editContainer></div>
 
 @if (tasks2$|async;as tasks2){
     <ul>
@@ -31,7 +32,7 @@
                     <button type="button" (click)="highlight(t)">Mettre en avant</button>
                     <button type="button" (click)="supprimerTask(t.id)">supprimer</button>
                     <button type="button" (click)="terminer(t.id)">Terminer</button>
-                    <button type="button" (click)="editer(t)">editer</button>
+                    <button type="button" (click)="editer(t.id)">editer</button>
                 </li>
             }@else{
                 <li>
