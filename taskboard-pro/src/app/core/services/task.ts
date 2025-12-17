@@ -26,10 +26,18 @@ export class TaskService {
   getTask(){
     return of(this.tasks).pipe(delay(5000));
   }
+  
+   getTasks(){
+    return this.tasks;
+  }
 
   deleteTask(id: number) {
     this.tasks = this.tasks.filter(task => task.id !== id);
     this.taskSubject.next(this.tasks);
+  }
+
+  clearTasks(){
+    this.tasks = [];
   }
 
 
