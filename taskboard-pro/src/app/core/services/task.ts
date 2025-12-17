@@ -27,3 +27,8 @@ export class TaskService {
     return of(this.tasks).pipe(delay(5000));
   }
 }
+
+export interface TaskItem{
+  id:Number
+  title:string
+}

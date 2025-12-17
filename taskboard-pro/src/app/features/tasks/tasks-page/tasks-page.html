@@ -11,17 +11,21 @@
 }
 
 <h3>Actions</h3>
+<button (click)="addTask('Nouvelle tâche')">Ajouter une tâche</button>
 
-<button (click)="addTask('Nouvelle Tache')">
-    Ajouter une tache
-</button>
+<!-- Zone d'injection du composant dynamique -->
+<div #highlightContainer></div>
 
 @if (tasks2$|async;as tasks2){
     <ul>
         @for (t of tasks2;track t.id){
             <li>
                 {{t.title}}
+                <button type="button" (click)="highlight(t)">Mettre en avant</button>
             </li>
         }
     </ul>
+}@else {
+    <p>Chargement des tâches...</p>
 }
+

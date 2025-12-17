@@ -1,6 +1,7 @@
-import { Component,inject } from '@angular/core';
-import { TaskService } from '../../../core/services/task';
+import { Component,inject,ViewChild,ViewContainerRef} from '@angular/core';
+import { TaskService,TaskItem } from '../../../core/services/task';
 import { AsyncPipe } from '@angular/common';
+import { TaskHighlight } from '../task-highlight/task-highlight';
 
 @Component({
   selector: 'app-tasks-page',
@@ -42,5 +43,16 @@ export class TasksPage {
   ngOnDestroy(){
     console.log("onDestroy")
     clearInterval(this.myIntervalles);
+  }
+
+  @ViewChild('highlightContainer', { read: ViewContainerRef })
+  container!: ViewContainerRef;
+
+  highlight(task: TaskItem) {
+    this.container.clear();
+    
+    const ref = this.container.createComponent(TaskHighlight);
+  
+    ref.instance.title = task.title;
   }
 }
