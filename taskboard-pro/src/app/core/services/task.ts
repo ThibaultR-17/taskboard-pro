@@ -3,14 +3,20 @@ import { of,filter,map } from 'rxjs';
 import  { delay } from 'rxjs/operators'
 import { BehaviorSubject } from 'rxjs';
 
+export interface TaskItem{
+  id: number;
+  title: string;
+  completed: boolean;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class TaskService {
-  private tasks= [
-    {id:1,title:'Préparer le cours Angular'},
-    {id:2,title:'Relire le module RxJS'},
-    {id:3,title:'Corriger les TPs'},
+  private tasks: TaskItem[] = [
+    {id:1,title:'Préparer le cours Angular', completed: false},
+    {id:2,title:'Relire le module RxJS', completed: false},
+    {id:3,title:'Corriger les TPs', completed: false},
   ];
 
 
@@ -18,7 +24,7 @@ export class TaskService {
   tasks$=this.taskSubject.asObservable();
 
   addTask(title : string){
-    const newTask={id: Date.now(), title};
+    const newTask: TaskItem = {id: Date.now(), title, completed: false};
     this.tasks = [...this.tasks,newTask];
     this.taskSubject.next(this.tasks);
   }
@@ -32,10 +38,15 @@ export class TaskService {
     this.taskSubject.next(this.tasks);
   }
 
+  terminateTask(id:number){
+    this.tasks.filter(task => task.id == id && task.completed== false).map(task => task.completed = true);
+    this.taskSubject.next(this.tasks);
+  }
 
 }
 
 export interface TaskItem{
-  id:Number
-  title:string
+  id: number;
+  title: string;
+  completed: boolean;
 }
