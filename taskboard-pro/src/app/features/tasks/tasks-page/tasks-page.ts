@@ -1,5 +1,5 @@
 import { Component,inject } from '@angular/core';
-import { TaskService } from '../../../core/service/task';
+import { TaskService } from '../../../core/services/task';
 import { AsyncPipe } from '@angular/common';
 
 @Component({

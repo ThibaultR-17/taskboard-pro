@@ -1,13 +1,13 @@
-import { Component } from '@angular/core';
-import { TasksPage } from '../features/tasks/tasks-page/tasks-page';
+import { Component,inject } from '@angular/core';
+import { RouterLink } from "@angular/router";
 
 
 @Component({
   selector: 'app-home',
-  imports: [TasksPage],
+  imports: [ RouterLink],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
-export class Home {
 
+export class Home {
 }
