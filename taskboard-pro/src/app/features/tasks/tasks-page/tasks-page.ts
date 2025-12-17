@@ -2,6 +2,8 @@ import { Component,inject,ViewChild,ViewContainerRef} from '@angular/core';
 import { TaskService, TaskItem } from '../../../core/services/task';
 import { AsyncPipe } from '@angular/common';
 import { TaskHighlight } from '../task-highlight/task-highlight';
+import { TaskEdit } from '../task-edit/task-edit';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-tasks-page',
@@ -13,7 +15,11 @@ export class TasksPage {
       @ViewChild('highlightContainer', { read: ViewContainerRef })
   container!: ViewContainerRef;
 
-    protected count=0;
+  @ViewChild('editContainer', {read : ViewContainerRef})
+  editContainer!:ViewContainerRef
+
+
+  protected count=0;
   private myIntervalles=0;
 
 
@@ -45,13 +51,9 @@ export class TasksPage {
     this.taskService2.deleteTask(id);
   }
 
-
-  ngOnDestroy(){
-    console.log("onDestroy")
-    clearInterval(this.myIntervalles);
+  terminer(id:number){
+    this.taskService2.terminateTask(id);
   }
-
-
 
   highlight(task: TaskItem) {
     this.container.clear();
@@ -60,4 +62,25 @@ export class TasksPage {
   
     ref.instance.title = task.title;
   }
+
+  editer(task : TaskItem){
+    this.editContainer.clear()
+
+    const ref = this.container.createComponent(TaskEdit);
+
+  }
+
+
+  ngOnDestroy(){
+    console.log("onDestroy")
+    clearInterval(this.myIntervalles);
+    this.container.clear();
+  }
+
+
+
+
+
+
+
 }

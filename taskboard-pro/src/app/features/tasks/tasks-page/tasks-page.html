@@ -25,11 +25,20 @@
 @if (tasks2$|async;as tasks2){
     <ul>
         @for (t of tasks2;track t.id){
-            <li>
-                {{t.title}}
-                <button type="button" (click)="highlight(t)">Mettre en avant</button>
-                <button type="button" (click)="supprimerTask(t.id)">supprimer</button>
-            </li>
+            @if (t.completed==false){
+                <li>
+                    {{t.title}}
+                    <button type="button" (click)="highlight(t)">Mettre en avant</button>
+                    <button type="button" (click)="supprimerTask(t.id)">supprimer</button>
+                    <button type="button" (click)="terminer(t.id)">Terminer</button>
+                    <button type="button" (click)="editer(t)">editer</button>
+                </li>
+            }@else{
+                <li>
+                    <s>{{t.title}} </s>
+                    <button type="button" (click)="supprimerTask(t.id)">supprimer</button>
+                </li>
+            }
         }
     </ul>
 }@else {
