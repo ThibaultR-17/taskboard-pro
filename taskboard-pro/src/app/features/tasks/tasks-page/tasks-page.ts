@@ -1,5 +1,5 @@
 import { Component,inject,ViewChild,ViewContainerRef} from '@angular/core';
-import { TaskService,TaskItem } from '../../../core/services/task';
+import { TaskService, TaskItem } from '../../../core/services/task';
 import { AsyncPipe } from '@angular/common';
 import { TaskHighlight } from '../task-highlight/task-highlight';
 import { TaskEdit } from '../task-edit/task-edit';
@@ -7,13 +7,12 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-tasks-page',
-  imports: [AsyncPipe,FormsModule],
+  imports: [AsyncPipe],
   templateUrl: './tasks-page.html',
   styleUrl: './tasks-page.css',
 })
 export class TasksPage {
-
-  @ViewChild('highlightContainer', { read: ViewContainerRef })
+      @ViewChild('highlightContainer', { read: ViewContainerRef })
   container!: ViewContainerRef;
 
   @ViewChild('editContainer', {read : ViewContainerRef})
