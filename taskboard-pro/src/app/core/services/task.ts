@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
+import { of,filter,map } from 'rxjs';
 import  { delay } from 'rxjs/operators'
 import { BehaviorSubject } from 'rxjs';
 
@@ -26,6 +26,13 @@ export class TaskService {
   getTask(){
     return of(this.tasks).pipe(delay(5000));
   }
+
+  deleteTask(id: number) {
+    this.tasks = this.tasks.filter(task => task.id !== id);
+    this.taskSubject.next(this.tasks);
+  }
+
+
 }
 
 export interface TaskItem{

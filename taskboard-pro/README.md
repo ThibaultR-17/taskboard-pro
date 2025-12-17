@@ -76,3 +76,16 @@ For more information on using the Angular CLI, including detailed command refere
 - Le behaviorSubject permet d'utiliser liste dynamique et reactive. le bouton utilise le behaviorSubject pour mettre a jour la liste et ce dernier "propage" la mise à jour aux composants abonnés 
 ## Async | 
 -  Async | permet de faire une operation sans bloquer le processus et en affichant un placeholder en attendant
+
+## Séquence 3 — Lazy Loading & Composants dynamiques
+
+- Lazzy loading : charger le chemin des composants plutot que les composants eux meme : site moins lourd, ne charge que le nécéssaire.
+- - Dans app.routes.ts on référence les chemins vers les routes.ts des differents composants via loadChildren
+- - Ces routes.ts references les composants de leur feature ou autre, mais peuvent aussi référencer d'autres routes.
+- Structure avec /features : Permet de mettre ses pages dans le meme dossier pour ne pas avoir à les chercher. 
+- - La logique peut se trouver dans d'autres dossier, par exemple ici la logique est dans core/services
+- Composants dynamiques : inserer un composant conditionnellement / selon une action. Ici, quand on choisis d'highlight
+
+- ViewContainerRef & ViewChild :
+- - le lien entre le composant et la fonction est fait au travers du container initialisé sur ViewContainerRef a partir duquel la méthode CreateComponent est utilisé
+- - ViewChild créé le #object que l'on appelle dans le HTML pour indiqué ou doit etre le composant créé dynamiquement.

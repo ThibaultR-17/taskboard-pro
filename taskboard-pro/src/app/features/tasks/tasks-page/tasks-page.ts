@@ -2,16 +2,19 @@ import { Component,inject,ViewChild,ViewContainerRef} from '@angular/core';
 import { TaskService,TaskItem } from '../../../core/services/task';
 import { AsyncPipe } from '@angular/common';
 import { TaskHighlight } from '../task-highlight/task-highlight';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-tasks-page',
-  imports: [AsyncPipe],
+  imports: [AsyncPipe,FormsModule],
   templateUrl: './tasks-page.html',
   styleUrl: './tasks-page.css',
 })
 export class TasksPage {
 
-    protected count=0;
+  @ViewChild('highlightContainer', { read: ViewContainerRef })
+  container!: ViewContainerRef;
+  protected count=0;
   private myIntervalles=0;
 
 
@@ -39,14 +42,18 @@ export class TasksPage {
     this.taskService2.addTask(title);
   }
 
+  supprimerTask(id:number){
+    this.taskService2.deleteTask(id);
+  }
+
 
   ngOnDestroy(){
     console.log("onDestroy")
     clearInterval(this.myIntervalles);
+    this.container.clear();
   }
 
-  @ViewChild('highlightContainer', { read: ViewContainerRef })
-  container!: ViewContainerRef;
+
 
   highlight(task: TaskItem) {
     this.container.clear();

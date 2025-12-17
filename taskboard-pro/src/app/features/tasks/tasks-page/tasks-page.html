@@ -11,9 +11,15 @@
 }
 
 <h3>Actions</h3>
-<button (click)="addTask('Nouvelle tâche')">Ajouter une tâche</button>
+<form (ngSubmit)="addTask(taskInput.value); taskInput.value = ''">
+  <input
+    #taskInput
+    placeholder="Nom de la tâche à ajouter"
+  />
+  <button type="submit">Ajouter une tâche</button>
+</form>
 
-<!-- Zone d'injection du composant dynamique -->
+
 <div #highlightContainer></div>
 
 @if (tasks2$|async;as tasks2){
@@ -22,6 +28,7 @@
             <li>
                 {{t.title}}
                 <button type="button" (click)="highlight(t)">Mettre en avant</button>
+                <button type="button" (click)="supprimerTask(t.id)">supprimer</button>
             </li>
         }
     </ul>
