@@ -1,4 +1,4 @@
-import { Component, inject, ViewChild, ViewContainerRef,ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, inject, ViewChild, ViewContainerRef, ChangeDetectionStrategy, OnDestroy, signal } from '@angular/core';
 import { TaskService, TaskItem } from '../../../core/services/task';
 import { AsyncPipe } from '@angular/common';
 import { TaskHighlight } from '../task-highlight/task-highlight';
@@ -8,13 +8,14 @@ import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-tasks-page',
-  imports: [AsyncPipe],
+  imports: [AsyncPipe, TaskHighlight, TaskEdit],
   templateUrl: './tasks-page.html',
   styleUrl: './tasks-page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 
 })
 export class TasksPage implements OnDestroy {
+
 
 
 
@@ -61,9 +62,10 @@ export class TasksPage implements OnDestroy {
 
   tasks2$=this.taskService2.tasks$;
 
-  private editingTask: TaskItem | null = null;
+  editingTask= signal<TaskItem | null>(null);
+  highlightTask = signal<TaskItem | null>(null);
 
-  addTask(title:string){
+   addTask(title:string){
     if (title.trim()) {
       this.taskService2.addTask(title);
     }
@@ -78,24 +80,20 @@ export class TasksPage implements OnDestroy {
   }
 
   highlight(task: TaskItem) {
-    // this.container.clear();
-    
-    // const ref = this.container.createComponent(TaskHighlight);
-
-    // ref.instance.title = task.title;
+    this.highlightTask.set(task);
   }
 
   editTask(task: TaskItem): void {
-    this.editingTask = task;
+    this.editingTask.set(task);
   }
 
   updateTask(data: { id: number; title: string }): void {
     this.taskService2.updateTask(data.id, data.title);
-    this.editingTask = null;
+    this.editingTask.set(null);
   }
 
     cancelEdit(): void {
-    this.editingTask = null;
+    this.editingTask.set(null);
   }
 
 

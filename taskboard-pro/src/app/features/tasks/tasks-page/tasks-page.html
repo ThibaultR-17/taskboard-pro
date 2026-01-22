@@ -42,8 +42,16 @@
     </div>
   </div>
 
-  <div #highlightContainer></div>
-  <div #editContainer></div>
+  @if (highlightTask(); as task) {
+    <app-task-highlight [title]="task.title" />
+  }
+
+    @if (editingTask(); as task) {
+    <app-task-edit 
+        [title]="task.title"
+        [taskId]="task.id"
+        (onSave)="updateTask($event); editingTask.set(null)" />
+    }
 
   <!-- Liste principale des tâches -->
   <div class="bg-white rounded-lg shadow-md p-6">
