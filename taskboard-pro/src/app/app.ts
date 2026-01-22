@@ -8,6 +8,7 @@ import { Header } from './header/header';
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
+
 export class App {
   protected readonly title = signal('taskboard-pro');
 }

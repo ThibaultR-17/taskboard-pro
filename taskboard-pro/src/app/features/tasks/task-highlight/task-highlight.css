@@ -1,0 +1,11 @@
+.highlight-container {
+  @apply bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-lg shadow-lg p-6 mb-6 border-4 border-yellow-600;
+}
+
+.highlight-title {
+  @apply text-2xl font-bold text-yellow-900 mb-2;
+}
+
+.highlight-content {
+  @apply text-xl text-yellow-800 font-semibold;
+}
