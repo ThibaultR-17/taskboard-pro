@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output,ChangeDetectionStrategy, EventEmitter } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -6,14 +6,17 @@ import { FormsModule } from '@angular/forms';
   imports:[FormsModule],
   templateUrl: './task-edit.html',
   styleUrls: ['./task-edit.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TaskEdit {
   @Input() title = '';
-  @Output() taskOutput = new EventEmitter<string>();
+  @Input() taskId = 0;
+  @Output() onSave = new EventEmitter<{id: number, title: string}>();
 
   editTaskTitle(nouveauNom: string) {
+    console.log('Nouveau nom de tâche : ', nouveauNom);
     if (nouveauNom.trim()) {
-      this.taskOutput.emit(nouveauNom);
+      this.onSave.emit({id: this.taskId, title: nouveauNom});
     }
   }
 }

@@ -1,48 +1,109 @@
-<h2>List des taches</h2>
+<div class="max-w-4xl mx-auto">
+  <h2 class="text-3xl font-bold text-gray-800 mb-6">Liste des tâches</h2>
+  
+  <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 rounded">
+    <p class="text-sm text-yellow-700">Ancienne version conservée à des fins d'exercice</p>
+  </div>
 
-@if (tasks$ | async; as tasks){
-    <ul>
+  <!-- Ancienne version -->
+  <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+    <h3 class="text-xl font-semibold text-gray-700 mb-4">Version asynchrone (délai 5s)</h3>
+    @if (tasks$ | async; as tasks){
+      <ul class="space-y-2">
         @for (t of tasks;track t.id){
-            <li>{{t.title}}</li>
+          <li class="bg-gray-50 p-3 rounded border-l-4 border-blue-500">{{t.title}}</li>
         }
-    </ul>
-}@else {
-    <p> Temps écoulé : {{this.count / 2}} secondes</p>
-}
+      </ul>
+    }@else {
+      <div class="flex items-center gap-2 text-gray-600">
+        <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
+        <p>Temps écoulé : {{this.count / 2}} secondes</p>
+      </div>
+    }
+  </div>
 
-<h3>Actions</h3>
-<form (ngSubmit)="addTask(taskInput.value); taskInput.value = ''">
-  <input
-    #taskInput
-    placeholder="Nom de la tâche à ajouter"
-  />
-  <button type="submit">Ajouter une tâche</button>
-</form>
+  <!-- Formulaire d'ajout -->
+  <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+    <h3 class="text-xl font-semibold text-gray-700 mb-4">Ajouter une tâche</h3>
+    <div class="flex gap-2">
+      <input
+        #taskInput
+        type="text"
+        placeholder="Nom de la tâche à ajouter"
+        (keyup.enter)="addTask(taskInput.value); taskInput.value = ''"
+        class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+      />
+      <button 
+        type="button" 
+        (click)="addTask(taskInput.value); taskInput.value = ''"
+        class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg shadow-md transition-colors">
+        Ajouter
+      </button>
+    </div>
+  </div>
 
+  <div #highlightContainer></div>
+  <div #editContainer></div>
 
-<div #highlightContainer></div>
-<div #editContainer></div>
-
-@if (tasks2$|async;as tasks2){
-    <ul>
+  <!-- Liste principale des tâches -->
+  <div class="bg-white rounded-lg shadow-md p-6">
+    <h3 class="text-xl font-semibold text-gray-700 mb-4">Mes tâches</h3>
+    @if (tasks2$|async;as tasks2){
+      <ul class="space-y-3">
         @for (t of tasks2;track t.id){
-            @if (t.completed==false){
-                <li>
-                    {{t.title}}
-                    <button type="button" (click)="highlight(t)">Mettre en avant</button>
-                    <button type="button" (click)="supprimerTask(t.id)">supprimer</button>
-                    <button type="button" (click)="terminer(t.id)">Terminer</button>
-                    <button type="button" (click)="editer(t.id)">editer</button>
-                </li>
-            }@else{
-                <li>
-                    <s>{{t.title}} </s>
-                    <button type="button" (click)="supprimerTask(t.id)">supprimer</button>
-                </li>
-            }
+          @if (t.completed==false){
+            <li class="bg-gray-50 border-l-4 border-green-500 p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+              <div class="flex items-center justify-between">
+                <span class="text-gray-800 font-medium">{{t.title}}</span>
+                <div class="flex gap-2 flex-wrap">
+                  <button 
+                    type="button" 
+                    (click)="highlight(t)"
+                    class="bg-yellow-500 hover:bg-yellow-600 text-white text-sm px-3 py-1 rounded transition-colors">
+                    ⭐ Mettre en avant
+                  </button>
+                  <button 
+                    type="button" 
+                    (click)="terminer(t.id)"
+                    class="bg-green-500 hover:bg-green-600 text-white text-sm px-3 py-1 rounded transition-colors">
+                    ✓ Terminer
+                  </button>
+                  <button 
+                    type="button" 
+                    (click)="editTask(t)"
+                    class="bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1 rounded transition-colors">
+                    ✏️ Éditer
+                  </button>
+                  <button 
+                    type="button" 
+                    (click)="supprimerTask(t.id)"
+                    class="bg-red-500 hover:bg-red-600 text-white text-sm px-3 py-1 rounded transition-colors">
+                    🗑️ Supprimer
+                  </button>
+                </div>
+              </div>
+            </li>
+          }@else{
+            <li class="bg-gray-100 border-l-4 border-gray-400 p-4 rounded-lg opacity-75">
+              <div class="flex items-center justify-between">
+                <s class="text-gray-500">{{t.title}}</s>
+                <button 
+                  type="button" 
+                  (click)="supprimerTask(t.id)"
+                  class="bg-red-500 hover:bg-red-600 text-white text-sm px-3 py-1 rounded transition-colors">
+                  🗑️ Supprimer
+                </button>
+              </div>
+            </li>
+          }
         }
-    </ul>
-}@else {
-    <p>Chargement des tâches...</p>
-}
+      </ul>
+    }@else {
+      <div class="flex items-center gap-2 text-gray-600">
+        <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
+        <p>Chargement des tâches...</p>
+      </div>
+    }
+  </div>
+</div>
 

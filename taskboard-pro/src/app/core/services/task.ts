@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { of,filter,map } from 'rxjs';
+import { of} from 'rxjs';
 import  { delay } from 'rxjs/operators'
 import { BehaviorSubject } from 'rxjs';
 
@@ -19,7 +19,7 @@ export class TaskService {
     {id:3,title:'Corriger les TPs', completed: false},
   ];
 
-
+ 
   private taskSubject = new BehaviorSubject(this.tasks);
   tasks$=this.taskSubject.asObservable();
 
@@ -59,18 +59,12 @@ export class TaskService {
     this.taskSubject.next(this.tasks);
   }
 
-editTask(id: number, text: string) {
-  const task = this.tasks.find(task => task.id === id);
-  if (task) {
-    task.title = text;
-    this.taskSubject.next([...this.tasks]);
+  updateTask(id: number, text: string) {
+    const task = this.tasks.find(task => task.id === id);
+    if (task) {
+      task.title = text;
+      this.taskSubject.next([...this.tasks]);
+    }
   }
-}
 
-}
-
-export interface TaskItem{
-  id: number;
-  title: string;
-  completed: boolean;
 }

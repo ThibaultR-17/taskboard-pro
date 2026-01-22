@@ -1,8 +1,9 @@
-import { Component,inject,ViewChild,ViewContainerRef} from '@angular/core';
+import { Component, inject, ViewChild, ViewContainerRef,ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { TaskService, TaskItem } from '../../../core/services/task';
 import { AsyncPipe } from '@angular/common';
 import { TaskHighlight } from '../task-highlight/task-highlight';
 import { TaskEdit } from '../task-edit/task-edit';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -10,29 +11,33 @@ import { TaskEdit } from '../task-edit/task-edit';
   imports: [AsyncPipe],
   templateUrl: './tasks-page.html',
   styleUrl: './tasks-page.css',
-})
-export class TasksPage {
-      @ViewChild('highlightContainer', { read: ViewContainerRef })
-  container!: ViewContainerRef;
+  changeDetection: ChangeDetectionStrategy.OnPush,
 
-  @ViewChild('editContainer', {read : ViewContainerRef})
-  editContainer!:ViewContainerRef
+})
+export class TasksPage implements OnDestroy {
+
 
 
   protected count=0;
   private myIntervalles=0;
+  private subscriptions: Subscription[] = [];
 
 
   ngOnInit() {
-    this.myIntervalles= setInterval(()=>{
-      if (document.hasFocus()){
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
         this.count++;
         console.log(this.count);
       }
-    },500
-    );
+    };
+    
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+  
+    this.visibilityHandler = handleVisibilityChange;
   
   }
+  
+  private visibilityHandler?: () => void;
 
   tasks$!: ReturnType<TaskService['getTaskObservableDelayed']>;
 
@@ -40,11 +45,28 @@ export class TasksPage {
     this.tasks$ = this.taskService.getTaskObservableDelayed();
   }
 
+
+
+
+
+ //-----------------------------------------------------------------------------------//
+
+
+
+
+
+
+
   taskService2 = inject(TaskService);
+
   tasks2$=this.taskService2.tasks$;
 
+  private editingTask: TaskItem | null = null;
+
   addTask(title:string){
-    this.taskService2.addTask(title);
+    if (title.trim()) {
+      this.taskService2.addTask(title);
+    }
   }
 
   supprimerTask(id:number){
@@ -56,33 +78,36 @@ export class TasksPage {
   }
 
   highlight(task: TaskItem) {
-    this.container.clear();
+    // this.container.clear();
     
-    const ref = this.container.createComponent(TaskHighlight);
-  
-    ref.instance.title = task.title;
+    // const ref = this.container.createComponent(TaskHighlight);
+
+    // ref.instance.title = task.title;
   }
 
-  editer(id: number) {
-
-    this.editContainer.clear();
-
-    const ref = this.editContainer.createComponent(TaskEdit);
-
-    ref.instance.title = this.taskService2.getTasksList()[id].title;
-
-    ref.changeDetectorRef.detectChanges();
-
-    ref.instance.taskOutput.subscribe((newTitle: string) => {this.taskService2.editTask(id, newTitle);});
+  editTask(task: TaskItem): void {
+    this.editingTask = task;
   }
 
-  
+  updateTask(data: { id: number; title: string }): void {
+    this.taskService2.updateTask(data.id, data.title);
+    this.editingTask = null;
+  }
+
+    cancelEdit(): void {
+    this.editingTask = null;
+  }
 
 
   ngOnDestroy(){
     console.log("onDestroy")
     clearInterval(this.myIntervalles);
-    this.container.clear();
+    if (this.visibilityHandler) {
+      document.removeEventListener('visibilitychange', this.visibilityHandler);
+    }
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+    this.subscriptions = [];
+
   }
 
 

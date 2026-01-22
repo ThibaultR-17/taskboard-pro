@@ -1,7 +1,16 @@
-<div class="task-edit">
-  <h3>Édition de nom de tâche</h3>
-  <form (ngSubmit)="editTaskTitle(taskOutput.value)">
-    <input #taskOutput [value]="title" placeholder="Titre de la tâche" />
-    <button type="submit">Modifier la tâche</button>
+<div class="bg-blue-50 border-l-4 border-blue-500 rounded-lg shadow-md p-6 mb-6">
+  <h3 class="text-xl font-semibold text-gray-800 mb-4">Édition de nom de tâche</h3>
+  <form (ngSubmit)="editTaskTitle(taskOutput.value)" class="flex gap-2">
+    <input 
+      #taskOutput 
+      [value]="title" 
+      placeholder="Titre de la tâche"
+      class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+    />
+    <button 
+      type="submit"
+      class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg shadow-md transition-colors">
+      Modifier
+    </button>
   </form>
 </div>
