@@ -1,19 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 
-import { Home } from './home';
+import { TaskEdit } from './task-edit';
 
-describe('Home', () => {
-  let component: Home;
-  let fixture: ComponentFixture<Home>;
+describe('TaskEdit', () => {
+  let component: TaskEdit;
+  let fixture: ComponentFixture<TaskEdit>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, Home]
+      imports: [TaskEdit]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(Home);
+    fixture = TestBed.createComponent(TaskEdit);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

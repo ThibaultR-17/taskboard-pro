@@ -1,8 +1,6 @@
 <app-header></app-header>
-<nav style="padding:.5rem; border-bottom:1px solid #ddd;">
-<a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Accueil</a> |
-<a routerLink="/about" routerLinkActive="active">À propos</a> |
-</nav>
-<main style="padding:1rem;">
-<router-outlet></router-outlet> 
+<main class="min-h-screen bg-gray-50 py-8">
+  <div class="container mx-auto px-4">
+    <router-outlet></router-outlet>
+  </div>
 </main>

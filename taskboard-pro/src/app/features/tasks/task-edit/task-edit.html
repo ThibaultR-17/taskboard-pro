@@ -1,0 +1,7 @@
+<div class="edit-container">
+  <h3 class="edit-title">Édition de nom de tâche</h3>
+  <form (ngSubmit)="editTaskTitle(taskOutput.value)" class="edit-form">
+    <input #taskOutput [value]="title" placeholder="Titre de la tâche" class="edit-input" />
+    <button type="submit" class="edit-button">Modifier</button>
+  </form>
+</div>
