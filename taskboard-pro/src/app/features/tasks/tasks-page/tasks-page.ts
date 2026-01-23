@@ -102,16 +102,9 @@ export class TasksPage implements OnDestroy {
     clearInterval(this.myIntervalles);
     if (this.visibilityHandler) {
       document.removeEventListener('visibilitychange', this.visibilityHandler);
-    }
     this.subscriptions.forEach(sub => sub.unsubscribe());
     this.subscriptions = [];
 
+    }
   }
-
-
-
-
-
-
-
 }

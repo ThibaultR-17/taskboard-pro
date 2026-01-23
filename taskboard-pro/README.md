@@ -142,10 +142,10 @@ For more information on using the Angular CLI, including detailed command refere
         |input/output ne se synchronisent pas|
 
         #### 9. Points à approfondir
-        - [ ] Tests d'intégration
-        - [ ] Tests E2E avec Cypress
-        - [ ] Mocking avancé pour HttpClient
-        - [ ] Tests de services asynchrones
+        - [v] Tests d'intégration
+        - [v] Tests E2E avec Cypress
+        - [v] Mocking avancé pour HttpClient
+        - [v] Tests de services asynchrones
 
         ### 🎯 Projet : Tests TaskBoard Pro
 
