@@ -6,6 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "build:github": "ng build --configuration=production --base-href=/taskboard-pro/",
+    "deploy": "npm run build:github && npx angular-cli-ghpages --dir=dist/taskboard-pro/browser",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
